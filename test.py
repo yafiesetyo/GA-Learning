@@ -16,6 +16,15 @@ def imp():
             data.append(row)
     return data
 
+#import data uji nya belakangan nya hehe
+def testing():
+    data = []
+    with open('data_uji_opsi_1.csv') as dat:
+        read = csv.reader(dat)
+        for row in read:
+            data.append(row)
+    return data
+
 #buat bikin 1 kromosom
 def indv():
     ind = []
@@ -273,6 +282,105 @@ def bestKromosom(max,fitnesslist,pop):
             idx = i
     return pop[idx]
 
+#masukin data ke csv nya + nerjemahin 
+def encSuhu (data,i):
+    if(data[i][:2]==[1,1]):
+        suhu = "Normal"
+    elif(data[i][:2]==[0,1]):
+        suhu = "Tinggi"
+    elif(data[i][:2]==[1,0]):
+        suhu = "Rendah"
+    else:
+        suhu = 'unknown'
+    return suhu
+
+def encHari (data,i):
+    if(data[i][2:4]==[1,1]):
+        hari = "Pagi"
+    elif(data[i][2:4]==[1,0]):
+        hari = "Siang"
+    elif(data[i][2:4]==[0,1]):
+        hari = "Sore"
+    elif(data[i][2:4]==[0,0]):
+        hari = 'Malam'
+    return hari
+
+def encLangit(data,i):
+    if(data[i][4:6]==[1,1]):
+        langit = "Berawan"
+    elif(data[i][4:6]==[1,0]):
+        langit = "Cerah"
+    elif(data[i][4:6]==[0,1]):
+        langit = "Rintik"
+    elif(data[i][4:6]==[0,0]):
+        langit = 'Hujan'
+    return langit
+
+def encLembab(data,i):
+    if(data[i][6:8]==[1,1]):
+        lembab = "Normal"
+    elif(data[i][6:8]==[0,1]):
+        lembab = "Tinggi"
+    elif(data[i][6:8]==[1,0]):
+        lembab = "Rendah"
+    else:
+        lembab = 'unknown'
+    return lembab
+
+def encDecision(data,i):
+    if(data[i][8:9]==[1]):
+        decision = 'ya'
+    else:
+        decision = 'tidak'
+    return decision
+
+
+#untuk melihat keputusan dari anak anak kami, maaf kalau ada yang cacat 
+def testPop(pop,test):
+    testlist = []
+    for i in range(len(pop)):
+        for j in range(len(test)):
+            if (pop[i][0]=='Tinggi'):                   
+                if(pop[i][1] == test[j][1]):                  
+                    if(pop[i][2] == test[j][2]):                       
+                        if(pop[i][3] == test[j][3]):
+                            decision = pop[i][4]
+                            testlist.append([decision,i])
+                        else:
+                            decision = 'tidak tahu'                           
+                    else:
+                        decision = 'tidak tahu'                      
+                else:
+                    decision = 'tidak tahu'                   
+            elif (pop[i][0]=='Normal'):
+                if(pop[i][1] == test[j][1]):               
+                    if(pop[i][2] == test[j][2]):                     
+                        if(pop[i][3] == test[j][3]):
+                            decision = pop[i][4]   
+                            testlist.append([decision,i])
+                        else:
+                            decision = 'tidak tahu'                            
+                    else:
+                        decision = 'tidak tahu'                        
+                else:
+                    decision = 'tidak tahu'                   
+            elif (pop[i][0]=='Rendah'):      
+                if(pop[i][1] == test[j][1]):                
+                    if(pop[i][2] == test[j][2]):                     
+                        if(pop[i][3] == test[j][3]):                           
+                            decision = pop[i][4] 
+                            testlist.append([decision,i])                                                               
+                        else:
+                            decision = 'tidak tahu'                            
+                    else:
+                        decision = 'tidak tahu'                       
+                else:
+                    decision = 'tidak tahu'
+            else:
+                decision = 'tidak tahu' 
+        
+    return testlist
+
 
 
 
@@ -324,7 +432,18 @@ print("                     kromosom terbaik : ",populasi[bestGlobal[1]])
 print("=========================================================================================")
 print("================================Wassalamualaikum Wr. Wb.=================================")
 
+#proses pembandingan data ujinya dimuali disini
+encoding = encode(populasi)
+data_test = testing()
+keputusan = testPop(encoding,data_test)
+print(keputusan)
 
+
+with open("hasil hehehehe.csv","w+") as my_csv:
+    csvWriter = csv.writer(my_csv,delimiter=',')
+    csvWriter.writerows(keputusan)
+print("==========================================================================================")
+print("=======================================FIN================================================")
 
 
 
