@@ -334,6 +334,19 @@ def encDecision(data,i):
         decision = 'tidak'
     return decision
 
+def encode(data):
+    enc = []
+    dat_enc = []
+    for i in range(len(data)):
+        suhu = encSuhu(data,i)
+        hari = encHari(data,i)
+        langit = encLangit(data,i)
+        lembab = encLembab(data,i)
+        keputusan = encDecision(data,i)
+        enc = [suhu,hari,langit,lembab,keputusan]
+        dat_enc.append(enc)
+    return dat_enc
+
 
 #untuk melihat keputusan dari anak anak kami, maaf kalau ada yang cacat 
 def testPop(pop,test):
